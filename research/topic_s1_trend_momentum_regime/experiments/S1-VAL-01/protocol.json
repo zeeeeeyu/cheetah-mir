@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "asset": "SSE:000300",
+  "primary_panel": "THEPAPER_WIND_SH_SZ_BJ__SH_SZ_CNY",
+  "historical_exploration": ["2021-01-01", "2024-12-31"],
+  "historical_validation": ["2025-01-01", "2025-12-31"],
+  "legacy_use": "EXPLORATORY_ONLY",
+  "pilot_inference": false,
+  "formal_prospective_dates": ["2027-01-04", "2027-06-30"],
+  "capture_cst": ["15:00", "20:00"],
+  "minimum_group_n": 10,
+  "minimum_input_coverage": 0.8,
+  "prior_state_lookback_sessions": 5,
+  "state_cutoff_abs_return": 0.01,
+  "ci_level": 0.95,
+  "bootstrap_block_sessions": 5,
+  "bootstrap_repetitions": 4999,
+  "bootstrap_seed": 61101,
+  "bootstrap_min_valid_fraction": 0.95,
+  "ci_method": "NEWCOMBE_WILSON_UNCORRECTED",
+  "fisher_alternative": "two-sided"
+}

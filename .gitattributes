@@ -1,0 +1,4 @@
+# Byte-exact preservation for the preregistration's SHA-256 lock.
+**/S1_VAL_01_PREREGISTRATION.md -text
+**/protocol.json -text
+**/protocol_lock.json -text

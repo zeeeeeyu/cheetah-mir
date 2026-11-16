@@ -1,0 +1,9 @@
+{
+  "version": "1.0",
+  "frozen_at_cst": "2026-11-13T13:51:37.0063273+08:00",
+  "purpose": "before new validation outcome access",
+  "sha256": {
+    "S1_VAL_01_PREREGISTRATION.md": "68f6018faceba125f83f65857bffd96ef3e3b92b22482bd09a19e1b47944bb78",
+    "protocol.json": "849b6c12abd84fb69d0f3392adb54c58eddfcafb6a1a764dbd26d1e52f2a9c2b"
+  }
+}

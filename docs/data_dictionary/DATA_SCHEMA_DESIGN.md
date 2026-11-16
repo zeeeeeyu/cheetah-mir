@@ -1,0 +1,23 @@
+# 数据字典与状态契约
+
+## records
+
+公共字段：id、kind、identity、payload、source_id、document_id、available_at、collected_at、content_hash。ID由类型与明确身份键计算，不模糊合并实体。支持Source、Document、Event、Entity、Asset、Observation、Opinion、Hypothesis、Evidence、MarketBar、Relation，以及Case/Location。
+
+payload保存原始时间字符串/时区及规范UTC；published_time与collected_time独立，event_at转换event_time。available_at取发布时间、采集时间和依赖可用时间的最大值。`as_of`查询使用该值；不会假装今天导入的历史文件在过去已进入系统。
+
+Document保存raw_path/raw_sha256/original_path/capture_method/duplicate_group；原来源URL和rights由source_id追踪。原文UTF-8引文必须存在于原始文件，Evidence还必须有location。PDF提取保留original_document_id、页码、bbox和normalized_path；自动提取不是已核实观点。
+
+MarketBar：asset_id/code/exchange/asset_type/trade_date/open/high/low/close/volume/amount/adjustment/market_as_of/sample_kind/quality。代码、类型、复权与日期显式校验，NaN/Infinity/负数拒绝；缺失amount/volume为NULL，不补零。FUND_NAV不得写入OHLC表。没有官方交易日日历时不生成T+N日历结论。
+
+Relation：source_entity/target_entity/relation_type/valid_from/valid_to/evidence_id/source_document_id/confidence/review_status。可扩展PUBLISHED、EXPRESSED、REFERENCES、OCCURRED_IN、AFFECTS、BELONGS_TO、HAS_BUSINESS_RELATION、REPRESENTS、OCCURRED_AFTER、SUPPORTS、CONTRADICTS。边不会自动成为因果；VERIFIED写入由v0.1导入器拒绝，需独立审核流程。
+
+## 状态
+
+事实：VERIFIED/PARTIALLY_VERIFIED/UNVERIFIED/DISPUTED。观点：FORECAST/INTERPRETATION/COMMENTARY/RUMOR。MIR研究状态：REGISTERED/RESEARCH_ONLY/BACKTESTED/OUT_OF_SAMPLE/PROSPECTIVE/REJECTED。所有决策状态固定RESEARCH_ONLY。
+
+这些是MIR的命名空间，不改旧Topic-01枚举。若未来传出到旧治理系统，OUT_OF_SAMPLE只映射metadata `oos_tested`，不写成旧internal_validation；BACKTESTED/PROSPECTIVE均不等于可生产交易。
+
+## SQLite VIEW
+
+index_daily/equity_daily/etf_daily按asset_type分开；market_breadth_daily/sector_daily/limit_statistics_daily按observation_type分开。trader_profiles、trader_documents、trader_opinions、trader_predictions、trader_outcomes；company_profiles、company_events、industry_entities、company_relations、related_assets；macro_events、policy_events、industry_events、geopolitical_events、event_locations都是领域投影。空VIEW意味着没有数据，不表示采集能力已完成。
